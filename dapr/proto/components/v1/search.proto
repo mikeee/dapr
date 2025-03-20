@@ -1,0 +1,89 @@
+/*
+Copyright 2025 The Dapr Authors
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+syntax = "proto3";
+
+package dapr.proto.components.v1;
+
+import "dapr/proto/components/v1/common.proto";
+import "google/protobuf/any.proto";
+
+option go_package = "github.com/dapr/dapr/pkg/proto/components/v1;components";
+
+// Interface for search store.
+service SearchService {
+  // Initializes the search store with the given metadata.
+  rpc Init(SearchServiceInitRequest) returns (SearchStoreInitResponse) {}
+
+  // Returns a list of implemented search service features.
+  rpc Features(FeaturesRequest) returns (FeaturesResponse) {}
+
+  // Add/update a document in the search store.
+  rpc Upsert(UpsertRequest) returns (UpsertResponse) {}
+
+  // Get a document from the search store.
+  rpc Get(GetRequest) returns (GetResponse) {}
+
+  // Search for documents in the search store.
+  rpc Search(SearchRequest) returns (SearchResponse) {}
+
+  // Check the health of the search component
+  rpc Health(HealthRequest) returns (HealthResponse) {}
+}
+
+// Request to initialize the search store.
+message SearchServiceInitRequest {
+  MetadataRequest metadata = 1;
+}
+
+// Response from initialization.
+message SearchStoreInitResponse {}
+
+// UpsertRequest is the message to add/update a document in the search store.
+message UpsertRequest {
+  // The document to be added/updated.
+  google.protobuf.Any document = 1;
+}
+
+// UpsertResponse is the response message to convey the result of the upsert operation.
+message UpsertResponse {}
+
+// GetRequest is the message to get a document from the search store.
+message GetRequest {
+  // The ID of the document to get.
+  string id = 1;
+}
+
+// GetResponse is the response message to convey the result of the get operation.
+message GetResponse {
+  // The document retrieved from the search store.
+  google.protobuf.Any document = 1;
+}
+
+// SearchRequest is the message to search for documents in the search store.
+message SearchRequest {
+  // The search query.
+  string query = 1;
+}
+
+// SearchResponse is the response message to convey the result of the search operation.
+message SearchResponse {
+  // The list of documents that match the search query.
+  repeated google.protobuf.Any documents = 1;
+}
+
+// HealthRequest is the message to check the health of the search component.
+message HealthRequest {}
+
+// HealthResponse is the response message to convey the health status of the search component.
+message HealthResponse {}

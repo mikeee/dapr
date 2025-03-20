@@ -220,7 +220,121 @@ service Dapr {
 
   // Converse with a LLM service
   rpc ConverseAlpha1(ConversationRequest) returns (ConversationResponse) {}
+
+  // Create/Update a search document
+  rpc UpsertSearchDocumentAlpha1(UpsertSearchDocumentRequest) returns (UpsertSearchDocumentResponse) {}
+
+  // Get a search document
+  rpc GetSearchDocumentAlpha1(GetSearchDocumentRequest) returns (GetSearchDocumentResponse) {}
+
+  // Delete a search document
+  rpc DeleteSearchDocumentAlpha1(DeleteSearchDocumentRequest) returns (DeleteSearchDocumentResponse) {}
+
+  // List search documents
+  rpc ListSearchDocumentsAlpha1(ListSearchDocumentsRequest) returns (ListSearchDocumentsResponse) {}
+
+  // Purge search documents
+  rpc PurgeSearchDocumentsAlpha1(PurgeSearchDocumentsRequest) returns (PurgeSearchDocumentsResponse) {}
+
+  // Search documents
+  rpc SearchDocumentsAlpha1(SearchDocumentsRequest) returns (SearchDocumentsResponse) {}
 }
+
+// UpsertSearchDocumentRequest is the message to update a search document in a search index.
+message UpsertSearchDocumentRequest {
+  // Required. The name of the search component to use.
+  string search_component = 1;
+
+  // Required. The document id.
+  string document_id = 2;
+
+  // Required. The document to be updated.
+  google.protobuf.Any data = 3;
+}
+
+// UpsertSearchDocumentResponse is the response message for updating a search document.
+message UpsertSearchDocumentResponse {
+}
+
+// GetSearchDocumentRequest is the message to get a search document from a search index.
+message GetSearchDocumentRequest {
+  // Required. The name of the search component to use.
+  string search_component = 1;
+
+  // Required. The document id.
+  string document_id = 2;
+}
+
+// GetSearchDocumentResponse is the response message for getting a search document.
+message GetSearchDocumentResponse {
+  // Required. The document to be returned.
+  google.protobuf.Any data = 1;
+}
+
+// DeleteSearchDocumentRequest is the message to delete a search document from a search index.
+message DeleteSearchDocumentRequest {
+  // Required. The name of the search component to use.
+  string search_component = 1;
+
+  // Required. The document id.
+  string document_id = 2;
+}
+
+// DeleteSearchDocumentResponse is the response message for deleting a search document.
+message DeleteSearchDocumentResponse {
+}
+
+// ListSearchDocumentsRequest is the message to list search documents from a search index.
+message ListSearchDocumentsRequest {
+  // Required. The name of the search component to use.
+  string search_component = 1;
+
+  // Optional. The query to filter the documents.
+  string query = 2;
+
+  // Optional. The number of documents to return.
+  int32 count = 3;
+
+  // Optional. The number of documents to skip.
+  int32 skip = 4;
+}
+
+// ListSearchDocumentsResponse is the response message for listing search documents.
+message ListSearchDocumentsResponse {
+  // Required. The list of documents.
+  repeated google.protobuf.Any documents = 1;
+}
+
+// PurgeSearchDocumentsRequest is the message to bulk delete search documents from a search index.
+message PurgeSearchDocumentsRequest {
+  // Required. The name of the search component to use.
+  string search_component = 1;
+
+  // Required. The list of document ids to delete.
+  repeated string document_ids = 2;
+}
+
+// PurgeSearchDocumentsResponse is the response message for bulk deleting search documents.
+message PurgeSearchDocumentsResponse {
+}
+
+// SearchDocumentsRequest is the message to search documents from a search index.
+message SearchDocumentsRequest {
+  string search_component = 1;  // Search component name
+  string query = 2;  // Query string
+  int32 offset = 3;  // Offset for pagination
+  int32 limit = 4;   // Limit for pagination
+  repeated string fields = 5;  // Fields to retrieve
+  repeated string sort = 6;   // Sorting options
+  string filter = 7;          // Filter query
+}
+
+// SearchDocumentsResponse is the response message for searching documents.
+message SearchDocumentsResponse {
+  // Required. The list of documents.
+  repeated google.protobuf.Any documents = 1;
+}
+
 
 // InvokeServiceRequest represents the request message for Service invocation.
 message InvokeServiceRequest {
