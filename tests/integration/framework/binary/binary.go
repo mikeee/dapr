@@ -55,6 +55,8 @@ var buildTags = []string{
 	// assert which metadata daprd forwards to a component. Never set for
 	// released daprd flavors.
 	"bindings_metadataprobe",
+	"search_meilisearch",
+	"vector_meilisearch",
 }
 
 func BuildAll(t *testing.T) {
